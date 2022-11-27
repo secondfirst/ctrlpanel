@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ctrlpanel.main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ctrlpanel_main_jar</output-path>
+    <root id="archive" name="ctrlpanel.main.jar">
+      <element id="module-output" name="ctrlpanel.main" />
+    </root>
+  </artifact>
+</component>
