@@ -6,21 +6,24 @@ import java.awt.event.ActionListener;
 
 public class MainListener extends Frame implements ActionListener
 {
-    Label label1,label2,label3;
-    TextField text1,text2,text3;
-    Button button1,button2,button3,button4,button5;
+    Label label1,label2,label3,labelTime;
+    TextField text1,text2,text3, taskName;
+    Button button1,button2,button3,button4,button5, startTask;
     public MainListener()
     {
-        label1 = new Label("Var 1");
-        label2 = new Label("Var 2");
+        label1 = new Label("分類");
+        label2 = new Label("タスク");
         label3 = new Label("Result");
+        labelTime = new Label("時間");
         text1 = new TextField(10);
         text2 = new TextField(10);
         text3 = new TextField(10);
+        taskName = new TextField(20);
         button1 = new Button("Add");
         button2 = new Button("Sub");
         button3 = new Button("Multi");
         button4 = new Button("Div");
+        startTask = new Button("開始");
         button5 = new Button("Close");
         add(label1);
         add(text1);
@@ -28,12 +31,15 @@ public class MainListener extends Frame implements ActionListener
         add(text2);
         add(label3);
         add(text3);
+        add(labelTime);
         add(button1);
         add(button2);
         add(button3);
         add(button4);
         add(button5);
-        setSize(200,200);
+        add(taskName);
+        add(startTask);
+        setSize(600,500);
         setTitle("AWTCalculator");
         setLayout(new FlowLayout());
         button1.addActionListener(this);
@@ -41,46 +47,57 @@ public class MainListener extends Frame implements ActionListener
         button3.addActionListener(this);
         button4.addActionListener(this);
         button5.addActionListener(this);
+        startTask.addActionListener(this);
     }
     public void actionPerformed(ActionEvent action) {
         double a1=0,b1=0,c1=0;
+        var helper = new ViewHelper();
         try
         {
-            a1 = Double.parseDouble(text1.getText());
+            a1 = helper.parseTextAsDouble(text1);
         }
         catch (NumberFormatException e) {
             text1.setText("Invalid input entered");
         }
         try
         {
-            b1 = Double.parseDouble(text2.getText());
+            b1 = helper.parseTextAsDouble(text2);
         }
         catch (NumberFormatException e) {
             text2.setText("Invalid input entered");
         }
         if(action.getSource()==button1)
         {
-            c1 = a1 + b1;
-            text3.setText(String.valueOf(c1));
+            text3.setText(String.valueOf(add(a1, b1)));
         }
         if(action.getSource()==button2)
         {
-            c1 = a1 - b1;
-            text3.setText(String.valueOf(c1));
+            text3.setText(String.valueOf(sub(a1, b1)));
         }
         if(action.getSource()==button3)
         {
-            c1 = a1 * b1;
-            text3.setText(String.valueOf(c1));
+            text3.setText(String.valueOf(multi(a1, b1)));
         }
         if(action.getSource()==button4)
         {
-            c1 = a1 / b1;
-            text3.setText(String.valueOf(c1));
+            text3.setText(String.valueOf(div(a1, b1)));
         }
         if(action.getSource() == button5)
         {
             System.exit(0);
         }
+    }
+
+    public static double add(double a, double b) {
+        return a + b;
+    }
+    public static double sub(double a, double b) {
+        return a - b;
+    }
+    public static double multi(double a, double b) {
+        return a * b;
+    }
+    public static double div(double a, double b) {
+        return a / b;
     }
 }
