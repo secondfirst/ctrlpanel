@@ -1,5 +1,6 @@
 package org.example.control;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 
 public class MainListener extends Frame implements ActionListener
 {
+    Panel p1, p2;
     Label label1,label2,label3,labelTime, labelTask;
     TextField text1,text2,text3, taskName;
     HashMap<String,TextField> tasks;
@@ -36,24 +38,32 @@ public class MainListener extends Frame implements ActionListener
         button4 = new Button("Div");
         startTask = new Button("開始");
         button5 = new Button("Close");
-        add(label1);
-        add(text1);
-        add(label2);
-        add(text2);
-        add(label3);
-        add(text3);
-        add(labelTime);
-        add(button1);
-        add(button2);
-        add(button3);
-        add(button4);
-        add(button5);
-        add(taskName);
-        add(startTask);
-        add(labelTask);
+
+        p1 = new Panel();
+        add(p1);
+        p1.add(label1);
+        p1.add(text1);
+        p1.add(label2);
+        p1.add(text2);
+        p1.add(label3);
+        p1.add(text3);
+        p1.add(labelTime);
+        p1.add(button1);
+        p1.add(button2);
+        p1.setLayout(new FlowLayout(FlowLayout.CENTER));
+        p1.add(button3);
+        p1.add(button4);
+        p1.add(button5);
+
+        p2 = new Panel();
+        add(p2);
+        p2.setLayout(new FlowLayout(FlowLayout.CENTER));
+        p2.add(taskName);
+        p2.add(startTask);
+        p2.add(labelTask);
         setSize(600,500);
         setTitle("AWTCalculator");
-        setLayout(new FlowLayout());
+        setLayout(new GridLayout(3,1));
         button1.addActionListener(this);
         button2.addActionListener(this);
         button3.addActionListener(this);
