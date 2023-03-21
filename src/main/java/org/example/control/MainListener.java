@@ -3,18 +3,29 @@ package org.example.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 public class MainListener extends Frame implements ActionListener
 {
-    Label label1,label2,label3,labelTime;
+    Label label1,label2,label3,labelTime, labelTask;
     TextField text1,text2,text3, taskName;
+    HashMap<String,TextField> tasks;
     Button button1,button2,button3,button4,button5, startTask;
     public MainListener()
     {
         label1 = new Label("分類");
         label2 = new Label("タスク");
         label3 = new Label("Result");
-        labelTime = new Label("時間");
+
+        Instant time = Instant.now();
+        var format = DateTimeFormatter.ofPattern("yyyy/MM/dd H:m:s").withZone(ZoneId.systemDefault());
+        labelTime = new Label(format.format(time));
+        labelTask = new Label("task");
         text1 = new TextField(10);
         text2 = new TextField(10);
         text3 = new TextField(10);
@@ -39,6 +50,7 @@ public class MainListener extends Frame implements ActionListener
         add(button5);
         add(taskName);
         add(startTask);
+        add(labelTask);
         setSize(600,500);
         setTitle("AWTCalculator");
         setLayout(new FlowLayout());
@@ -85,6 +97,16 @@ public class MainListener extends Frame implements ActionListener
         if(action.getSource() == button5)
         {
             System.exit(0);
+        }
+        if(action.getSource() == startTask)
+        {
+            try
+            {
+                labelTask.setText(helper.parseTextAsString(taskName));
+            }
+            catch (NumberFormatException e) {
+                taskName.setText("Invalid input entered");
+            }
         }
     }
 
