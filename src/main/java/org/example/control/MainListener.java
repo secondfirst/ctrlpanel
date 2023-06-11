@@ -1,6 +1,5 @@
 package org.example.control;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,36 +13,41 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 public class MainListener extends Frame implements ActionListener
 {
     Panel p1, p2;
-    Label label1,label2,label3,labelTime, labelTask;
+    Label labelCategory, labelTasks,label3,labelTime, labelTask;
     TextField text1,text2,text3, taskName;
     HashMap<String,TextField> tasks;
     Button button1,button2,button3,button4,button5, startTask;
+
+    private DateTimeFormatter datetimeFormat;
     public MainListener()
     {
-        label1 = new Label("分類");
-        label2 = new Label("タスク");
+
+        labelCategory = new Label("分類");
+        labelTasks = new Label("タスク");
         label3 = new Label("Result");
 
         Instant time = Instant.now();
-        var format = DateTimeFormatter.ofPattern("yyyy/MM/dd H:m:s").withZone(ZoneId.systemDefault());
-        labelTime = new Label(format.format(time));
+        datetimeFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd H:m:s").withZone(ZoneId.systemDefault());
+        labelTime = new Label(datetimeFormat.format(time));
+
         labelTask = new Label("task");
         text1 = new TextField(10);
         text2 = new TextField(10);
         text3 = new TextField(10);
         taskName = new TextField(20);
-        button1 = new Button("Add");
-        button2 = new Button("Sub");
-        button3 = new Button("Multi");
-        button4 = new Button("Div");
+        button1 = new Button("+");
+        button2 = new Button("-");
+        button3 = new Button("x");
+        button4 = new Button("/");
         startTask = new Button("開始");
         button5 = new Button("Close");
 
+        // 上部パネル
         p1 = new Panel();
         add(p1);
-        p1.add(label1);
+        p1.add(labelCategory);
         p1.add(text1);
-        p1.add(label2);
+        p1.add(labelTasks);
         p1.add(text2);
         p1.add(label3);
         p1.add(text3);
@@ -55,15 +59,19 @@ public class MainListener extends Frame implements ActionListener
         p1.add(button4);
         p1.add(button5);
 
+        // 下部パネル
         p2 = new Panel();
         add(p2);
         p2.setLayout(new FlowLayout(FlowLayout.CENTER));
         p2.add(taskName);
         p2.add(startTask);
         p2.add(labelTask);
+
         setSize(600,500);
-        setTitle("AWTCalculator");
+        setTitle("TaskLogger");
+
         setLayout(new GridLayout(3,1));
+
         button1.addActionListener(this);
         button2.addActionListener(this);
         button3.addActionListener(this);
@@ -113,13 +121,17 @@ public class MainListener extends Frame implements ActionListener
             try
             {
                 labelTask.setText(helper.parseTextAsString(taskName));
+                labelTime.setText(refreshTime(datetimeFormat));
             }
             catch (NumberFormatException e) {
                 taskName.setText("Invalid input entered");
             }
         }
     }
-
+    public static String refreshTime(DateTimeFormatter format) {
+        Instant time = Instant.now();
+        return format.format(time);
+    }
     public static double add(double a, double b) {
         return a + b;
     }
