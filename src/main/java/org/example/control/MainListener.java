@@ -7,6 +7,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 
@@ -69,6 +71,7 @@ public class MainListener extends Frame implements ActionListener
 
         setSize(600,500);
         setTitle("TaskLogger");
+        setTimer();
 
         setLayout(new GridLayout(3,1));
 
@@ -144,4 +147,20 @@ public class MainListener extends Frame implements ActionListener
     public static double div(double a, double b) {
         return a / b;
     }
+
+    /**
+     * リアルタイム処理
+     *
+     */
+    private void setTimer() {
+        TimerTask task = new TimerTask() {
+            public void run() {
+                labelTime.setText(refreshTime(datetimeFormat));
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(task, 1000L, 1000L);
+    }
+
 }
